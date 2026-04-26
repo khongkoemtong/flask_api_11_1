@@ -37,13 +37,14 @@ def hello():
 def insert ():
     connection = connect_db()
     cursor = connection.cursor(cursor_factory=RealDictCursor)
+    id= request.form['id']
     name = request.form['name']
     age = request.form['age']
     gender = request.form['gender']
     grade = request.form['grade']
 
-    sql = "INSERT INTO students  values (%s,%s,%s,%s) "
-    cursor.execute(sql,(name,age,gender,grade))
+    sql = "INSERT INTO students  values (%s,%s,%s,%s,%s) "
+    cursor.execute(sql,(id,name,age,gender,grade))
     connection.commit()
 
     return jsonify("create successfully !")
