@@ -49,6 +49,43 @@ def insert ():
 
     return jsonify("create successfully !")
 
+@app.route('/show' ,methods=["POST"])
+def show ():
+    conection = connect_db()
+    cusor = conection.cursor(cursor_factory=RealDictCursor)
+    id = request.form['id']
+
+    sql = "SELECT * FROM students WHERE id = %s"
+
+    cusor.execute(sql,(id,))
+    student = cusor.fetchone()
+    conection.commit()
+
+    return jsonify(student)
+
+
+@app.route('/update/<int:myid>',methods=['POST'])
+def update (myid):
+    conection = connect_db()
+    cursor = conection.cursor(cursor_factory=RealDictCursor)
+
+    id = request.form['id']
+    name = request.form['name']
+    age = request.form['age']
+    gender = request.form['gender']
+    grade = request.form['grade']
+
+
+    sql = "UPDATE students SET id =%s ,name=%s,age=%s,gender=%s ,grade=%s WHERE id = %s"
+    
+    cursor.execute(sql,(id,name,age,gender,grade,myid))
+    conection.commit()
+
+    return jsonify("update success !")
+
+
+
+
 
 
 
